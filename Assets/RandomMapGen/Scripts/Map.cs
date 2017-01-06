@@ -25,5 +25,31 @@ public class Map {
 			tile.id = i;
 			tiles [i] = tile;
 		}
+
+		FindNeighbors ();
+	}
+
+	void FindNeighbors(){
+		for(var r = 0; r < rows; r++) {
+			for(var c = 0; c < columns; c++) {
+				var tile = tiles[columns * r + c];
+
+				if(r < rows -1) {
+					tile.AddNeighbor(Sides.Bottom, tiles[columns*(r+1)+c]);
+				}
+
+				if(c<columns - 1) {
+					tile.AddNeighbor(Sides.Right, tiles[columns * r + c + 1]);
+				}
+
+				if(c>0) {
+					tile.AddNeighbor(Sides.Left, tiles[columns * r + c - 1]);
+				}
+
+				if(r>0) {
+					tile.AddNeighbor(Sides.Top, tiles[columns * (r-1) + c]);
+				}
+			}
+		}
 	}
 }

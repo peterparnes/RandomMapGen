@@ -56,9 +56,12 @@ public class RandomMapTester : MonoBehaviour {
 			go.transform.SetParent(mapContainer.transform);
 			go.transform.position = new Vector3(newX, newY, 0);
 
-			var spriteId = 0;
-			var sr = go.GetComponent<SpriteRenderer> ();
-			sr.sprite = sprites [spriteId];
+			var tile = map.tiles [i];
+			var spriteId = tile.autotileId;
+			if(spriteId >= 0) {
+				var sr = go.GetComponent<SpriteRenderer> ();
+				sr.sprite = sprites [spriteId];
+			}
 
 			if(column == (maxColumns -1)) {
 				row++;
