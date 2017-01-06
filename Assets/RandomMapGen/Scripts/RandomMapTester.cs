@@ -18,6 +18,23 @@ public class RandomMapTester : MonoBehaviour {
 	[Header("Map Sprites")]
 	public Texture2D islandTexture; 
 
+	[Space]
+	[Header("Decorate Map")]
+	[Range(0,.9f)]
+	public float erodePercent = .5f;
+	public int erodeIterations = 2; 
+	[Range(0,.9f)]
+	public float treePercent = .3f;
+	[Range(0,.9f)]
+	public float hillPercent = .2f;
+	[Range(0,.9f)]
+	public float mountainPercent = .1f;
+	[Range(0,.9f)]
+	public float townPercent = .05f;
+	[Range(0,.9f)]
+	public float monsterPercent = .1f;
+	[Range(0,.9f)]
+	public float lakePercent = .05f;
 
 	public Map map; 
 
@@ -28,9 +45,9 @@ public class RandomMapTester : MonoBehaviour {
 	
 	public void MakeMap() {
 		map.NewMap (mapWidth, mapHeight);
-		Debug.Log ("Created a new map: " + map.columns + " x " + map.rows + " map");
-
+		map.CreateIsland (erodePercent, erodeIterations, treePercent, hillPercent, mountainPercent, townPercent, monsterPercent, lakePercent);
 		CreateGrid ();
+		CenterMap (map.casteTile.id);
 	}
 
 	private void CreateGrid() {
@@ -75,5 +92,15 @@ public class RandomMapTester : MonoBehaviour {
 		for (var i = children.Length - 1; i > 0; i--) {
 			Destroy (children [i].gameObject);
 		}
+	}
+
+	void CenterMap(int index) {
+		var camPos = Camera.main.transform.position;
+		var width = map.columns; 
+
+		camPos.x = (index % width) * tileSize.x;
+		camPos.y = -((index / width) * tileSize.y);
+
+		Camera.main.transform.position = camPos;
 	}
 }
